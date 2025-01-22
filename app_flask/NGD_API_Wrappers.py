@@ -182,6 +182,7 @@ def ngd_items_request(
 
     for feature in json_response['features']:
         feature['collection'] = collection
+        feature['properties']['collection'] = collection
 
     if add_metadata:
         json_response['source'] = "Compiled from code by Geovation from Ordnance Survey"

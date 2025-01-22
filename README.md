@@ -23,3 +23,5 @@ graph TD
     B --> D
     C --> D
 ```
+
+# Catalyst API Documentation
