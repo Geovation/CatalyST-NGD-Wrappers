@@ -125,7 +125,11 @@ def oauth2_manager(func: callable) -> callable:
     A wrapper function, extending the input function to handle OAuth2 authentication using environment variables.
     '''
 
-    def wrapper(*args, headers: dict = None, **kwargs) -> dict:
+    def wrapper(
+        *args,
+        headers: dict = None,
+        **kwargs
+    ) -> dict:
 
         headers = headers.copy() if headers else {}
         kwargs_ = kwargs.copy()
@@ -134,9 +138,11 @@ def oauth2_manager(func: callable) -> callable:
         headers['Authorization'] = f'Bearer {access_token}'
         response = func(*args, headers = headers, **kwargs_)
         if response.get('code') != 401:
+            print('Using existing access token')
             return response
         client_id = os.environ.get('CLIENT_ID')
         client_secret = os.environ.get('CLIENT_SECRET')
+        print('Recalculating access token')
         try:
             access_token = get_access_token(
                 client_id=client_id,
